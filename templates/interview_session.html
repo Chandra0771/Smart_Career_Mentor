@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block title %}Interview Session - AI Smart Career Mentor{% endblock %}
+
+{% block extra_css %}
+<style>
+    .session-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    
+    .session-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .session-title {
+        color: #fff;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    
+    .session-subtitle {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.1rem;
+    }
+    
+    .question-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 30px;
+        margin-bottom: 25px;
+    }
+    
+    .question-number {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    
+    .question-text {
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin-bottom: 15px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-label {
+        display: block;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+    
+    .form-textarea {
+        width: 100%;
+        padding: 14px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        font-size: 1rem;
+        font-family: 'Poppins', sans-serif;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+        min-height: 100px;
+        resize: vertical;
+    }
+    
+    .form-textarea::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .form-textarea:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .btn {
+        padding: 14px 30px;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        box-shadow: 0 4px 15px 0 rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px 0 rgba(102, 126, 234, 0.6);
+    }
+    
+    .btn-group {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 30px;
+    }
+    
+    .feedback-section {
+        background: rgba(102, 126, 234, 0.2);
+        border-radius: 16px;
+        padding: 25px;
+        margin-top: 30px;
+    }
+    
+    .feedback-title {
+        color: #fff;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+    
+    .feedback-text {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
+    .score-display {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1.2rem;
+        margin-top: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="session-container">
+    <div class="session-header">
+        <h1 class="session-title">💬 {{ interview.job_title }} Interview Practice</h1>
+        <p class="session-subtitle">Answer the questions below and get AI feedback</p>
+    </div>
+    
+    <form method="POST" action="{{ url_for('interview_session', session_id=interview.id) }}">
+        {% for question in interview.questions %}
+        <div class="question-card">
+            <span class="question-number">Question {{ loop.index }} of {{ interview.questions|length }}</span>
+            <p class="question-text">{{ question }}</p>
+            
+            <div class="form-group">
+                <label for="answer_{{ loop.index0 }}" class="form-label">Your Answer:</label>
+                <textarea 
+                    id="answer_{{ loop.index0 }}" 
+                    name="answer_{{ loop.index0 }}" 
+                    class="form-textarea" 
+                    placeholder="Type your answer here..."
+                >{{ interview.user_answers[loop.index0] if interview.user_answers and loop.index0 < interview.user_answers|length else '' }}</textarea>
+            </div>
+        </div>
+        {% endfor %}
+        
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Submit Answers</button>
+            <a href="{{ url_for('interview_prep') }}" class="btn btn-primary" style="background: rgba(255,255,255,0.1);">Back to Sessions</a>
+        </div>
+    </form>
+    
+    {% if interview.ai_feedback %}
+    <div class="feedback-section">
+        <h3 class="feedback-title">💡 AI Feedback</h3>
+        <p class="feedback-text">{{ interview.ai_feedback }}</p>
+        {% if interview.overall_score %}
+        <div class="score-display">Score: {{ interview.overall_score }}/100</div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

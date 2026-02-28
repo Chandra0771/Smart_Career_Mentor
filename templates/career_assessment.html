@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+
+{% block title %}Career Assessment - AI Smart Career Mentor{% endblock %}
+
+{% block extra_css %}
+<style>
+    .assessment-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    
+    .assessment-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 40px;
+        margin-bottom: 30px;
+    }
+    
+    .assessment-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .assessment-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+    }
+    
+    .assessment-title {
+        color: #fff;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    
+    .assessment-subtitle {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.1rem;
+    }
+    
+    .form-group {
+        margin-bottom: 25px;
+    }
+    
+    .form-label {
+        display: block;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1rem;
+        margin-bottom: 10px;
+        font-weight: 500;
+    }
+    
+    .form-input, .form-select, .form-textarea {
+        width: 100%;
+        padding: 14px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        font-size: 1rem;
+        font-family: 'Poppins', sans-serif;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+    
+    .form-textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+    
+    .form-input::placeholder, .form-textarea::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .form-select option {
+        background: #1a1a2e;
+        color: #fff;
+    }
+    
+    .btn {
+        padding: 14px 30px;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        box-shadow: 0 4px 15px 0 rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px 0 rgba(102, 126, 234, 0.6);
+    }
+    
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .btn-group {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="assessment-container">
+    <div class="assessment-card">
+        <div class="assessment-header">
+            <div class="assessment-icon">📊</div>
+            <h1 class="assessment-title">Career Assessment</h1>
+            <p class="assessment-subtitle">Complete this assessment to discover your ideal career path</p>
+        </div>
+        
+        <form method="POST" action="{{ url_for('career_assessment') }}">
+            <div class="form-group">
+                <label for="skills" class="form-label">Your Skills (comma-separated)</label>
+                <input 
+                    type="text" 
+                    id="skills" 
+                    name="skills" 
+                    class="form-input" 
+                    placeholder="e.g., Python, JavaScript, Data Analysis, Machine Learning"
+                    value="{{ profile.skills if profile else '' }}"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="experience_years" class="form-label">Years of Experience</label>
+                <input 
+                    type="number" 
+                    id="experience_years" 
+                    name="experience_years" 
+                    class="form-input" 
+                    min="0"
+                    max="50"
+                    value="{{ profile.experience_years if profile else '0' }}"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="desired_job_title" class="form-label">Desired Job Title</label>
+                <input 
+                    type="text" 
+                    id="desired_job_title" 
+                    name="desired_job_title" 
+                    class="form-input" 
+                    placeholder="e.g., Software Engineer, Data Scientist"
+                    value="{{ profile.desired_job_title if profile else '' }}"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="preferred_industry" class="form-label">Preferred Industry</label>
+                <select id="preferred_industry" name="preferred_industry" class="form-select">
+                    <option value="">Select an industry</option>
+                    <option value="Technology" {% if profile and profile.preferred_industry == 'Technology' %}selected{% endif %}>Technology</option>
+                    <option value="Healthcare" {% if profile and profile.preferred_industry == 'Healthcare' %}selected{% endif %}>Healthcare</option>
+                    <option value="Finance" {% if profile and profile.preferred_industry == 'Finance' %}selected{% endif %}>Finance</option>
+                    <option value="Education" {% if profile and profile.preferred_industry == 'Education' %}selected{% endif %}>Education</option>
+                    <option value="Retail" {% if profile and profile.preferred_industry == 'Retail' %}selected{% endif %}>Retail</option>
+                    <option value="Manufacturing" {% if profile and profile.preferred_industry == 'Manufacturing' %}selected{% endif %}>Manufacturing</option>
+                    <option value="Other" {% if profile and profile.preferred_industry == 'Other' %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="preferred_location" class="form-label">Preferred Location</label>
+                <input 
+                    type="text" 
+                    id="preferred_location" 
+                    name="preferred_location" 
+                    class="form-input" 
+                    placeholder="e.g., San Francisco, Remote, New York"
+                    value="{{ profile.preferred_location if profile else '' }}"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="expected_salary" class="form-label">Expected Salary (USD/year)</label>
+                <input 
+                    type="number" 
+                    id="expected_salary" 
+                    name="expected_salary" 
+                    class="form-input" 
+                    min="30000"
+                    max="500000"
+                    step="5000"
+                    placeholder="e.g., 100000"
+                    value="{{ profile.expected_salary if profile else '' }}"
+                >
+            </div>
+            
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">Submit Assessment</button>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

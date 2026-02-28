@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+
+{% block title %}Login - AI Smart Career Mentor{% endblock %}
+
+{% block extra_css %}
+<style>
+    .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+    
+    .auth-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        padding: 40px;
+        width: 100%;
+        max-width: 420px;
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .auth-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .auth-logo {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+    
+    .auth-title {
+        color: #fff;
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+    
+    .auth-subtitle {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-label {
+        display: block;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+    
+    .form-input {
+        width: 100%;
+        padding: 14px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        font-size: 1rem;
+        font-family: 'Poppins', sans-serif;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+    
+    .form-input::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .form-input:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+    }
+    
+    .btn {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        box-shadow: 0 4px 15px 0 rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px 0 rgba(102, 126, 234, 0.6);
+    }
+    
+    .btn-glow {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-glow::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .btn-glow:hover::before {
+        left: 100%;
+    }
+    
+    .auth-footer {
+        text-align: center;
+        margin-top: 25px;
+    }
+    
+    .auth-footer p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+    }
+    
+    .auth-footer a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .auth-footer a:hover {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+    }
+    
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .divider span {
+        padding: 0 15px;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.85rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-logo">🎯</div>
+            <h1 class="auth-title">Welcome Back</h1>
+            <p class="auth-subtitle">Login to continue your career journey</p>
+        </div>
+        
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="form-group">
+                <label for="username" class="form-label">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    class="form-input" 
+                    placeholder="Enter your username"
+                    required
+                    autocomplete="username"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    class="form-input" 
+                    placeholder="Enter your password"
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-glow">
+                Login
+            </button>
+        </form>
+        
+        <div class="divider">
+            <span>OR</span>
+        </div>
+        
+        <div class="auth-footer">
+            <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

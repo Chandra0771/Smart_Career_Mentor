@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block title %}Learning Paths - AI Smart Career Mentor{% endblock %}
+
+{% block extra_css %}
+<style>
+    .learning-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    
+    .learning-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .learning-title {
+        color: #fff;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    
+    .learning-subtitle {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.1rem;
+    }
+    
+    .paths-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+    }
+    
+    .path-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 30px;
+        transition: all 0.3s ease;
+    }
+    
+    .path-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .path-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+    }
+    
+    .path-title {
+        color: #fff;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    
+    .path-description {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+    
+    .path-meta {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .path-meta-item {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.85rem;
+    }
+    
+    .path-meta-item span {
+        margin-right: 5px;
+    }
+    
+    .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+    
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+    
+    .progress-text {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    
+    .level-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    
+    .level-beginner { background: rgba(40, 167, 69, 0.3); color: #28a745; }
+    .level-intermediate { background: rgba(255, 193, 7, 0.3); color: #ffc107; }
+    .level-advanced { background: rgba(220, 53, 69, 0.3); color: #dc3545; }
+    
+    .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .completed-badge {
+        display: inline-block;
+        background: rgba(40, 167, 69, 0.3);
+        color: #28a745;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+    
+    .back-link {
+        display: inline-block;
+        margin-top: 30px;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+    }
+    
+    .back-link:hover {
+        color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="learning-container">
+    <div class="learning-header">
+        <h1 class="learning-title">📚 Learning Paths</h1>
+        <p class="learning-subtitle">Personalized courses to upgrade your skills</p>
+    </div>
+    
+    <div class="paths-grid">
+        {% for path in paths %}
+        <div class="path-card">
+            <div class="path-icon">📚</div>
+            <h3 class="path-title">{{ path.title }}</h3>
+            <p class="path-description">{{ path.description }}</p>
+            
+            <div class="path-meta">
+                <span class="path-meta-item">🏢 {{ path.provider }}</span>
+                <span class="path-meta-item">⏱️ {{ path.duration }}</span>
+            </div>
+            
+            <span class="level-badge level-{{ path.level }}">{{ path.level }}</span>
+            
+            {% if path.progress > 0 %}
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ path.progress }}%"></div>
+            </div>
+            <p class="progress-text">{{ path.progress }}% Complete</p>
+            {% endif %}
+            
+            {% if path.completed %}
+            <div class="completed-badge">✓ Completed</div>
+            {% else %}
+            <form method="POST" action="{{ url_for('update_learning_progress', path_id=path.id) }}" style="margin-top: 15px;">
+                <label for="progress_{{ path.id }}" style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Update Progress:</label>
+                <input 
+                    type="range" 
+                    id="progress_{{ path.id }}"
+                    name="progress" 
+                    min="0" 
+                    max="100" 
+                    value="{{ path.progress }}"
+                    style="width: 100%; margin: 10px 0;"
+                    title="Drag to update your progress"
+                    onchange="this.form.submit()"
+                >
+            </form>
+            {% if path.course_url %}
+            <a href="{{ path.course_url }}" target="_blank" class="btn btn-primary" style="margin-top: 10px;">Go to Course</a>
+            {% endif %}
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    
+    <a href="{{ url_for('dashboard') }}" class="back-link">← Back to Dashboard</a>
+</div>
+{% endblock %}
