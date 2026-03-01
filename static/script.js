@@ -50,9 +50,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     credentials: 'include'
                 });
                 
-                if (response.redirected || response.ok) {
-                    showNotification('Login successful!', 'success');
-                    setTimeout(() => window.location.href = response.redirected ? response.url : '/dashboard', 1000);
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else if (response.ok) {
+                    window.location.href = '/dashboard';
                 } else {
                     showNotification('Invalid username or password', 'error');
                     submitBtn.disabled = false;
@@ -103,9 +104,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     credentials: 'include'
                 });
                 
-                if (response.redirected || response.ok) {
-                    showNotification('Registration successful! Please login.', 'success');
-                    setTimeout(() => window.location.href = '/login', 1500);
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else if (response.ok) {
+                    window.location.href = '/login';
                 } else {
                     showNotification('Registration failed. Please check your details.', 'error');
                     submitBtn.disabled = false;
