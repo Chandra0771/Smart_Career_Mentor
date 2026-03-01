@@ -44,7 +44,7 @@ function formatDate(dateString) {
 }
 
 /**
- * Make API request
+ * Make API request with improved error handling
  */
 async function apiRequest(endpoint, method = 'GET', data = null) {
     const options = {
@@ -65,7 +65,22 @@ async function apiRequest(endpoint, method = 'GET', data = null) {
         return { status: response.status, ...result };
     } catch (error) {
         console.error('API Error:', error);
-        return { success: false, message: 'Network error. Please try again.' };
+        
+        // Provide more specific error messages based on the error type
+        let errorMessage = 'Connection failed. Please try again.';
+        
+        if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+            // This usually means the server is not running or there's a CORS issue
+            errorMessage = 'Unable to connect to server. Please ensure the server is running and try again.';
+        } else if (error.name === 'AbortError') {
+            errorMessage = 'Request timed out. Please check your internet connection and try again.';
+        } else if (error.name === 'NetworkError') {
+            errorMessage = 'Network connection error. Please check your internet connection.';
+        } else if (error.message && error.message.includes('Network request failed')) {
+            errorMessage = 'Server is unreachable. Please try again later.';
+        }
+        
+        return { success: false, message: errorMessage };
     }
 }
 
@@ -98,6 +113,11 @@ document.addEventListener('DOMContentLoaded', function() {
         loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Logging in...';
+            
             const formData = new FormData(loginForm);
             const email = formData.get('email') || formData.get('username');
             const password = formData.get('password');
@@ -108,6 +128,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 password,
                 rememberMe 
             });
+            
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
             
             if (result.success) {
                 showNotification('Login successful!', 'success');
@@ -124,6 +147,11 @@ document.addEventListener('DOMContentLoaded', function() {
         registerForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            const submitBtn = registerForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Registering...';
+            
             const formData = new FormData(registerForm);
             const name = formData.get('name') || formData.get('username');
             const email = formData.get('email');
@@ -131,6 +159,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const confirmPassword = formData.get('confirm_password');
             
             if (password !== confirmPassword) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
                 showNotification('Passwords do not match', 'error');
                 return;
             }
@@ -140,6 +170,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 email, 
                 password 
             });
+            
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
             
             if (result.success) {
                 showNotification('Registration successful!', 'success');
