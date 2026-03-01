@@ -413,11 +413,23 @@ def login():
     # If already logged in, redirect to dashboard
     if 'user_id' in session:
         return redirect(url_for('dashboard'))
+    
+    # Check for remember me cookie - auto-login if exists
+    remember_token = request.cookies.get('remember_token')
+    if remember_token:
+        username_from_cookie = remember_token
+        user = User.query.filter_by(username=username_from_cookie).first()
+        if user:
+            session['user_id'] = user.id
+            session['username'] = user.username
+            session['email'] = user.email
+            return redirect(url_for('dashboard'))
 
     if request.method == 'POST':
         # Get form data
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '')
+        remember_me = request.form.get('remember_me', False)
 
         # Find user by username
         user = User.query.filter_by(username=username).first()
@@ -428,6 +440,13 @@ def login():
             session['user_id'] = user.id
             session['username'] = user.username
             session['email'] = user.email
+            
+            # Set remember me cookie if checkbox is checked
+            if remember_me:
+                response = redirect(url_for('dashboard'))
+                response.set_cookie('remember_token', username, max_age=60*60*24*30)  # 30 days
+                flash(f'Welcome back, {user.username}!', 'success')
+                return response
             
             flash(f'Welcome back, {user.username}!', 'success')
             return redirect(url_for('dashboard'))

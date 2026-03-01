@@ -88,6 +88,22 @@
         box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
     }
     
+    .form-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.9rem;
+        cursor: pointer;
+    }
+    
+    .form-checkbox input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #667eea;
+        cursor: pointer;
+    }
+    
     .btn {
         width: 100%;
         padding: 14px;
@@ -210,6 +226,13 @@
                     required
                     autocomplete="current-password"
                 >
+            </div>
+            
+            <div class="form-group">
+                <label class="form-checkbox">
+                    <input type="checkbox" name="remember_me" id="remember_me">
+                    <span>Remember me</span>
+                </label>
             </div>
             
             <button type="submit" class="btn btn-primary btn-glow">
