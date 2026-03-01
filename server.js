@@ -76,13 +76,29 @@ app.use(helmet({
     contentSecurityPolicy: false // Disable for development
 }));
 
-// CORS configuration - allow all origins in development
+// CORS configuration - allow all origins including production
 app.use(cors({
-    origin: true, // Allow all origins in development
+    origin: function(origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        // Also allow your Render domain
+        const allowedOrigins = [
+            'https://smart-career-mentor-js1v.onrender.com',
+            'http://localhost:5000',
+            'http://localhost:3000'
+        ];
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(null, true); // Allow all for now
+        }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
 }));
+
+// Handle preflight requests
+app.options('*', cors());
 
 // Body parser
 app.use(express.json());
