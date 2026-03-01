@@ -341,10 +341,14 @@ with app.app_context():
 
 @app.route('/')
 def index():
-    """Redirect to dashboard if logged in, otherwise to login."""
-    if 'user_id' in session:
-        return redirect(url_for('dashboard'))
-    return redirect(url_for('login'))
+    """Home/Landing page - shows homepage for all users."""
+    return render_template('home.html')
+
+
+@app.route('/home')
+def home():
+    """Alternative home route."""
+    return render_template('home.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])

@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Career Mentor - Project Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        body {
+            font-family: 'Calibri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #e0e0e0;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            background: white;
+            margin: 10mm auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            border: 2px solid #333;
+        }
+        
+        .page-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a5276;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .header-text {
+            font-size: 1.2rem;
+            color: #1a5276;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            color: #1a5276;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            color: #1a5276;
+            margin-bottom: 15px;
+            border-left: 5px solid #1a5276;
+            padding-left: 15px;
+            background: #f0f8ff;
+            padding: 10px 15px;
+        }
+        
+        h3 {
+            font-size: 1.3rem;
+            color: #2874a6;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        p {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+        
+        ul {
+            margin: 10px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            font-size: 1.05rem;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .title-page {
+            background: linear-gradient(135deg, #1a5276 0%, #2874a6 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .title-page h1 {
+            color: white;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            border: none;
+            background: none;
+        }
+        
+        .title-page .subtitle {
+            font-size: 1.8rem;
+            opacity: 0.95;
+            margin-bottom: 40px;
+        }
+        
+        .title-page .details {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+        
+        .title-page .url-box {
+            font-size: 1.1rem;
+            margin-top: 50px;
+            background: rgba(255,255,255,0.15);
+            padding: 15px 40px;
+            border-radius: 8px;
+            border: 2px solid white;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .box {
+            border: 2px solid #1a5276;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        
+        .box-blue {
+            border: 2px solid #1a5276;
+            padding: 15px;
+            border-radius: 8px;
+            background: #e8f4f8;
+        }
+        
+        .box-green {
+            border: 2px solid #1e8449;
+            padding: 15px;
+            border-radius: 8px;
+            background: #e8f8f0;
+        }
+        
+        .box-red {
+            border: 2px solid #c0392b;
+            padding: 15px;
+            border-radius: 8px;
+            background: #fdedec;
+        }
+        
+        .box-orange {
+            border: 2px solid #d68910;
+            padding: 15px;
+            border-radius: 8px;
+            background: #fef9e7;
+        }
+        
+        .tech-box {
+            border: 2px solid #1a5276;
+            padding: 12px 20px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #1a5276 0%, #2874a6 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        .architecture-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .arch-box {
+            border: 3px solid #1a5276;
+            padding: 15px 25px;
+            border-radius: 10px;
+            background: #e8f4f8;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        
+        .arch-arrow {
+            font-size: 2rem;
+            color: #1a5276;
+            font-weight: bold;
+        }
+        
+        .screenshot-box {
+            border: 3px dashed #1a5276;
+            padding: 50px 30px;
+            border-radius: 10px;
+            background: #f0f8ff;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .screenshot-box p {
+            font-size: 1.2rem;
+            color: #666;
+            text-align: center;
+        }
+        
+        .conclusion-box {
+            border: 3px solid #1a5276;
+            padding: 25px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1a5276 0%, #2874a6 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .conclusion-box h3 {
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .conclusion-box ul {
+            list-style: none;
+            text-align: center;
+            padding: 0;
+        }
+        
+        .conclusion-box li {
+            color: white;
+            font-size: 1.1rem;
+            margin: 8px 0;
+        }
+        
+        .page-number {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+        }
+        
+        .thank-you {
+            text-align: center;
+            font-size: 2rem;
+            color: #1a5276;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+        
+        .highlight {
+            background: yellow;
+            padding: 2px 5px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .page {
+                margin: 0;
+                box-shadow: none;
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Page 1: Title Slide -->
+<div class="page title-page">
+    <div class="page-content">
+        <h1>🎯 Smart Career Mentor</h1>
+        <p class="subtitle">A Web-Based Career Guidance System</p>
+        <p class="details"><strong>Project Presentation</strong></p>
+        <p class="details">Your Name</p>
+        <p class="details">BSc Computer Science</p>
+        <p class="details">College Name</p>
+        <p class="details">Year</p>
+        <div class="url-box">
+            🌐 Live URL: https://smart-career-mentor-js1v.onrender.com
+        </div>
+    </div>
+</div>
+
+<!-- Page 2: Introduction -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>📌 Introduction</h2>
+        <p>In today's competitive job market, students often face significant challenges in making informed career decisions. The lack of proper guidance and mentorship leads to confusion and uncertainty about career paths.</p>
+        <p>This project <strong>"Smart Career Mentor"</strong> is a web-based application designed to provide comprehensive career guidance to students and job seekers. It leverages technology to bridge the gap between education and employment.</p>
+        
+        <h3>Key Issues Addressed:</h3>
+        <ul>
+            <li>🔹 <strong>Career Confusion:</strong> Students are unsure about which career path to choose</li>
+            <li>🔹 <strong>Lack of Guidance:</strong> Limited access to professional career counseling</li>
+            <li>🔹 <strong>Skill Gap:</strong> Uncertainty about what skills are required for different jobs</li>
+            <li>🔹 <strong>Job Preparation:</strong> No proper resources for interview preparation</li>
+        </ul>
+        <div class="page-number">Page 2</div>
+    </div>
+</div>
+
+<!-- Page 3: Problem Statement -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>🎯 Problem Statement</h2>
+        <p>Traditional career guidance methods are insufficient in addressing the evolving needs of today's students. There is a critical need for an automated, accessible, and personalized career guidance system.</p>
+        
+        <h3>Students struggle with:</h3>
+        <div class="grid-2">
+            <div class="box-blue">
+                <h3>🎯 Career Selection</h3>
+                <p>Difficulty in choosing the right career path based on their skills and interests</p>
+            </div>
+            <div class="box-blue">
+                <h3>📚 Skill Roadmap</h3>
+                <p>Unclear path to develop required skills for their desired career</p>
+            </div>
+            <div class="box-blue">
+                <h3>💼 Job Preparation</h3>
+                <p>Lack of guidance for resume building and interview preparation</p>
+            </div>
+            <div class="box-blue">
+                <h3>🔍 Job Discovery</h3>
+                <p>Difficulty in finding relevant job opportunities matching their profile</p>
+            </div>
+        </div>
+        
+        <p>Our solution addresses these problems through an intelligent, web-based platform that provides personalized career recommendations and resources.</p>
+        <div class="page-number">Page 3</div>
+    </div>
+</div>
+
+<!-- Page 4: Objectives -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>✅ Objectives</h2>
+        
+        <h3>Primary Objectives:</h3>
+        <ul>
+            <li>✅ <strong>Provide Personalized Career Guidance:</strong> Offer tailored career suggestions based on user skills and preferences</li>
+            <li>✅ <strong>Suggest Learning Roadmap:</strong> Create customized learning paths for skill development</li>
+            <li>✅ <strong>Help Choose Correct Path:</strong> Assist students in making informed career decisions</li>
+            <li>✅ <strong>24×7 Online Access:</strong> Make career guidance accessible anytime, anywhere</li>
+        </ul>
+        
+        <h3>Secondary Objectives:</h3>
+        <ul>
+            <li>✅ <strong>Resume Building:</strong> Provide tools to create professional resumes</li>
+            <li>✅ <strong>Interview Preparation:</strong> Offer mock interview practice and tips</li>
+            <li>✅ <strong>Job Matching:</strong> Suggest relevant job opportunities</li>
+            <li>✅ <strong>Progress Tracking:</strong> Monitor learning progress and achievements</li>
+        </ul>
+        <div class="page-number">Page 4</div>
+    </div>
+</div>
+
+<!-- Page 5: Technology Stack -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>💻 Technology Stack</h2>
+        
+        <h3>Frontend Technologies:</h3>
+        <div class="grid-4" style="margin: 15px 0;">
+            <div class="tech-box">HTML5</div>
+            <div class="tech-box">CSS3</div>
+            <div class="tech-box">JavaScript</div>
+            <div class="tech-box">Bootstrap</div>
+        </div>
+        
+        <h3>Backend Technologies:</h3>
+        <div class="grid-4" style="margin: 15px 0;">
+            <div class="tech-box">Python</div>
+            <div class="tech-box">Flask</div>
+            <div class="tech-box">SQLAlchemy</div>
+            <div class="tech-box">SQLite</div>
+        </div>
+        
+        <h3>Deployment & Version Control:</h3>
+        <div class="grid-4" style="margin: 15px 0;">
+            <div class="tech-box">Git</div>
+            <div class="tech-box">GitHub</div>
+            <div class="tech-box">Render</div>
+            <div class="tech-box">Gunicorn</div>
+        </div>
+        
+        <h3>Why These Technologies?</h3>
+        <ul>
+            <li>🔹 <strong>Python Flask:</strong> Lightweight, easy to learn, perfect for small to medium projects</li>
+            <li>🔹 <strong>HTML/CSS/JS:</strong> Standard web technologies for cross-platform compatibility</li>
+            <li>🔹 <strong>SQLite:</strong> Simple, file-based database - no server setup required</li>
+            <li>🔹 <strong>Render:</strong> Free hosting platform ideal for deployment</li>
+        </ul>
+        <div class="page-number">Page 5</div>
+    </div>
+</div>
+
+<!-- Page 6: System Architecture -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>🏗️ System Architecture</h2>
+        
+        <h3>How It Works - Architecture Flow:</h3>
+        <div class="architecture-flow">
+            <div class="arch-box">👤<br>User</div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-box">🌐<br>Frontend<br>(HTML/CSS/JS)</div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-box">⚙️<br>Backend<br>(Flask/Python)</div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-box">🗄️<br>Database<br>(SQLite)</div>
+        </div>
+        
+        <h3>Component Description:</h3>
+        <div class="grid-2">
+            <div class="box">
+                <h3>Frontend Layer</h3>
+                <p>User interface built with HTML, CSS, and JavaScript. Handles user interactions and displays data.</p>
+            </div>
+            <div class="box">
+                <h3>Backend Layer</h3>
+                <p>Flask application processes requests, handles business logic, and manages user authentication.</p>
+            </div>
+            <div class="box">
+                <h3>Database Layer</h3>
+                <p>SQLite stores user profiles, career data, resumes, and learning paths securely.</p>
+            </div>
+            <div class="box">
+                <h3>Deployment Layer</h3>
+                <p>Application hosted on Render cloud platform, accessible via web browser.</p>
+            </div>
+        </div>
+        <div class="page-number">Page 6</div>
+    </div>
+</div>
+
+<!-- Page 7: How It Works -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>⚙️ How It Works</h2>
+        
+        <h3>User Registration & Login Flow:</h3>
+        <div class="box-blue" style="margin: 15px 0;">
+            <p><strong>Step 1:</strong> User visits the website → Sees login/register options</p>
+            <p><strong>Step 2:</strong> New user registers with username, email, password</p>
+            <p><strong>Step 3:</strong> Existing users login with credentials</p>
+            <p><strong>Step 4:</strong> System validates credentials and creates session</p>
+            <p><strong>Step 5:</strong> User can check "Remember Me" for automatic login next time</p>
+        </div>
+        
+        <h3>Career Assessment Flow:</h3>
+        <div class="box-blue" style="margin: 15px 0;">
+            <p><strong>Step 1:</strong> User fills career assessment form (skills, experience, preferences)</p>
+            <p><strong>Step 2:</strong> System analyzes input data</p>
+            <p><strong>Step 3:</strong> AI algorithm calculates career match scores</p>
+            <p><strong>Step 4:</strong> System displays personalized career recommendations</p>
+            <p><strong>Step 5:</strong> User receives learning path suggestions</p>
+        </div>
+        
+        <h3>Job Matching Flow:</h3>
+        <div class="box-blue" style="margin: 15px 0;">
+            <p><strong>Step 1:</strong> System matches user profile with available job listings</p>
+            <p><strong>Step 2:</strong> Jobs are ranked by match score (0-100%)</p>
+            <p><strong>Step 3:</strong> User can view job details and apply</p>
+            <p><strong>Step 4:</strong> Application status is tracked in dashboard</p>
+        </div>
+        <div class="page-number">Page 7</div>
+    </div>
+</div>
+
+<!-- Page 8: Features -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>✨ Features</h2>
+        
+        <div class="grid-2">
+            <div class="box-green">
+                <h3>🔐 User Authentication</h3>
+                <p>Secure login/registration system with password hashing (PBKDF2) and remember me functionality</p>
+            </div>
+            <div class="box-green">
+                <h3>🎯 Career Assessment</h3>
+                <p>Interactive quiz to evaluate skills, experience, and preferences for career recommendations</p>
+            </div>
+            <div class="box-green">
+                <h3>📄 Resume Builder</h3>
+                <p>Create professional resumes with AI-powered suggestions for improvements</p>
+            </div>
+            <div class="box-green">
+                <h3>💼 Job Matching</h3>
+                <p>AI-powered job recommendations based on user profile and skills</p>
+            </div>
+            <div class="box-green">
+                <h3>📚 Learning Paths</h3>
+                <p>Personalized course recommendations from top platforms (Coursera, Udemy, edX)</p>
+            </div>
+            <div class="box-green">
+                <h3>🎤 Interview Prep</h3>
+                <p>Mock interview sessions with common questions and AI feedback</p>
+            </div>
+            <div class="box-green">
+                <h3>📱 Responsive Design</h3>
+                <p>Works seamlessly on desktop, tablet, and mobile devices</p>
+            </div>
+            <div class="box-green">
+                <h3>🌐 Live Deployment</h3>
+                <p>Accessible online 24×7 via Render cloud hosting</p>
+            </div>
+        </div>
+        <div class="page-number">Page 8</div>
+    </div>
+</div>
+
+<!-- Page 9: Screenshot - Homepage -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>🖼️ Homepage</h2>
+        <div class="screenshot-box">
+            <p>[Insert Screenshot of Homepage Here]</p>
+            <p style="margin-top: 15px; font-size: 1rem;">Main landing page featuring gradient background with glassmorphism design</p>
+        </div>
+        <div class="box">
+            <h3>Page Elements:</h3>
+            <ul>
+                <li>🎨 Beautiful gradient background (#667eea to #764ba2)</li>
+                <li>🔘 Interactive floating buttons with glow effects</li>
+                <li>🔗 Navigation links to Login and Register</li>
+                <li>📱 Fully responsive layout</li>
+            </ul>
+        </div>
+        <div class="page-number">Page 9</div>
+    </div>
+</div>
+
+<!-- Page 10: Screenshot - Login -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>🖼️ Login Page</h2>
+        <div class="screenshot-box">
+            <p>[Insert Screenshot of Login Page Here]</p>
+            <p style="margin-top: 15px; font-size: 1rem;">User authentication with glassmorphism card design</p>
+        </div>
+        <div class="box">
+            <h3>Key Features:</h3>
+            <ul>
+                <li>🔐 Username and password input fields</li>
+                <li>✅ "Remember Me" checkbox for persistent login</li>
+                <li>🔗 Link to registration page for new users</li>
+                <li>✨ Animated floating card effect</li>
+                <li>💾 Session management with secure cookies</li>
+            </ul>
+        </div>
+        <div class="page-number">Page 10</div>
+    </div>
+</div>
+
+<!-- Page 11: Screenshot - Dashboard -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>🖼️ User Dashboard</h2>
+        <div class="screenshot-box">
+            <p>[Insert Screenshot of Dashboard Here]</p>
+            <p style="margin-top: 15px; font-size: 1rem;">Main user interface after successful login</p>
+        </div>
+        <div class="box">
+            <h3>Dashboard Features:</h3>
+            <ul>
+                <li>👋 Personalized welcome message with username</li>
+                <li>📊 Quick access to all career features</li>
+                <li>🎯 Career assessment status</li>
+                <li>💼 Job matches count</li>
+                <li>📚 Learning paths progress</li>
+            </ul>
+        </div>
+        <div class="page-number">Page 11</div>
+    </div>
+</div>
+
+<!-- Page 12: Screenshot - Career Assessment -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>🖼️ Career Assessment</h2>
+        <div class="screenshot-box">
+            <p>[Insert Screenshot of Career Assessment Page Here]</p>
+            <p style="margin-top: 15px; font-size: 1rem;">Career assessment form and results page</p>
+        </div>
+        <div class="box">
+            <h3>Assessment Process:</h3>
+            <ul>
+                <li>📝 Input: Skills, experience years, desired job title</li>
+                <li>📍 Input: Preferred industry and location</li>
+                <li>💰 Input: Expected salary range</li>
+                <li>📊 Output: Career match scores and recommendations</li>
+                <li>📋 Output: Personalized learning roadmap</li>
+            </ul>
+        </div>
+        <div class="page-number">Page 12</div>
+    </div>
+</div>
+
+<!-- Page 13: Advantages -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>👍 Advantages</h2>
+        
+        <div class="grid-2">
+            <div class="box-green">
+                <h3>✨ Easy to Use</h3>
+                <p>Simple and intuitive interface suitable for all users</p>
+            </div>
+            <div class="box-green">
+                <h3>🌐 Online Access</h3>
+                <p>Available 24×7 from anywhere with internet connection</p>
+            </div>
+            <div class="box-green">
+                <h3>⏰ Time Saving</h3>
+                <p>Quick career suggestions without waiting for appointments</p>
+            </div>
+            <div class="box-green">
+                <h3>🎯 Career Clarity</h3>
+                <p>Clear roadmap for career development and growth</p>
+            </div>
+            <div class="box-green">
+                <h3>📱 Responsive</h3>
+                <p>Works seamlessly on all devices - desktop, tablet, mobile</p>
+            </div>
+            <div class="box-green">
+                <h3>💰 Cost Effective</h3>
+                <p>Free to use - no charges for career guidance services</p>
+            </div>
+            <div class="box-green">
+                <h3>🔒 Secure</h3>
+                <p>Password hashing and secure session management</p>
+            </div>
+            <div class="box-green">
+                <h3>📊 Personalized</h3>
+                <p>Tailored recommendations based on individual profiles</p>
+            </div>
+        </div>
+        <div class="page-number">Page 13</div>
+    </div>
+</div>
+
+<!-- Page 14: Limitations -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>⚠️ Limitations</h2>
+        
+        <div class="grid-3">
+            <div class="box-red">
+                <h3>🌐 Internet Required</h3>
+                <p>Needs active internet connection to access the platform</p>
+            </div>
+            <div class="box-red">
+                <h3>🔧 Basic Algorithm</h3>
+                <p>Uses basic scoring - not AI-powered recommendations</p>
+            </div>
+            <div class="box-red">
+                <h3>📊 Limited Data</h3>
+                <p>Job listings are sample data, not real-time</p>
+            </div>
+            <div class="box-red">
+                <h3>👤 Single User</h3>
+                <p>No multi-user collaboration features</p>
+            </div>
+            <div class="box-red">
+                <h3>📝 Manual Input</h3>
+                <p>Requires manual data entry for assessments</p>
+            </div>
+            <div class="box-red">
+                <h3>🔄 No Updates</h3>
+                <p>Static content - no automatic updates</p>
+            </div>
+        </div>
+        
+        <h3>Note:</h3>
+        <p>These limitations provide opportunities for future enhancements and improvements in subsequent versions of the application.</p>
+        <div class="page-number">Page 14</div>
+    </div>
+</div>
+
+<!-- Page 15: Future Scope -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>🔮 Future Scope</h2>
+        
+        <div class="grid-2">
+            <div class="box-orange">
+                <h3>🤖 AI Integration</h3>
+                <p>Add AI chatbot for personalized career guidance using ChatGPT or similar</p>
+            </div>
+            <div class="box-orange">
+                <h3>💼 Real Job Data</h3>
+                <p>Integrate with LinkedIn, Indeed APIs for real-time job listings</p>
+            </div>
+            <div class="box-orange">
+                <h3>📄 Resume Templates</h3>
+                <p>Multiple professional resume templates with PDF export</p>
+            </div>
+            <div class="box-orange">
+                <h3>👨‍💼 Admin Panel</h3>
+                <p>Admin dashboard to manage users, content, and analytics</p>
+            </div>
+            <div class="box-orange">
+                <h3>📊 Analytics</h3>
+                <p>Career analytics dashboard with charts and insights</p>
+            </div>
+            <div class="box-orange">
+                <h3>🔗 Social Features</h3>
+                <p>Connect with mentors and peers for guidance</p>
+            </div>
+            <div class="box-orange">
+                <h3>📱 Mobile App</h3>
+                <p>Native mobile application for iOS and Android</p>
+            </div>
+            <div class="box-orange">
+                <h3>🎓 Certifications</h3>
+                <p>Online certification tracking and verification</p>
+            </div>
+        </div>
+        <div class="page-number">Page 15</div>
+    </div>
+</div>
+
+<!-- Page 16: Conclusion -->
+<div class="page">
+    <div class="page-content">
+        <div class="header">
+            <p class="header-text">SMART CAREER MENTOR - PROJECT PRESENTATION</p>
+        </div>
+        <h2>🙏 Conclusion</h2>
+        
+        <div class="conclusion-box">
+            <h3>Smart Career Mentor - Summary</h3>
+            <p>This web application helps students make better career decisions using modern web technologies.</p>
+            <ul>
+                <li>✓ Career guidance and assessment</li>
+                <li>✓ Learning paths and course recommendations</li>
+                <li>✓ Job matching and recommendations</li>
+                <li>✓ Resume building assistance</li>
+                <li>✓ Interview preparation resources</li>
+                <li>✓ 24×7 online accessibility</li>
+            </ul>
+        </div>
+        
+        <h3 style="margin-top: 30px;">Project Highlights:</h3>
+        <ul>
+            <li>🏆 Complete full-stack web application</li>
+            <li>🔧 Built with industry-standard technologies</li>
+            <li>🌐 Successfully deployed on cloud platform</li>
+            <li>📚 Demonstrates practical understanding of web development</li>
+        </ul>
+        
+        <p class="thank-you">Thank You! 🙏</p>
+        <p style="text-align: center;">Questions?</p>
+        <div class="page-number">Page 16</div>
+    </div>
+</div>
+
+</body>
+</html>
