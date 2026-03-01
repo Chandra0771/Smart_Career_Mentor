@@ -72,17 +72,16 @@ async function initializeDatabase() {
 
 // Security middleware
 app.use(helmet({
-    crossOriginResourcePolicy: { policy: "cross-origin" }
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    contentSecurityPolicy: false // Disable for development
 }));
 
-// CORS configuration
+// CORS configuration - allow all origins in development
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' 
-        ? process.env.PROD_URL 
-        : ['http://localhost:5000', 'http://127.0.0.1:5000'],
+    origin: true, // Allow all origins in development
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 // Body parser
