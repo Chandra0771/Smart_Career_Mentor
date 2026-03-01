@@ -71,7 +71,7 @@ def get_database_uri():
     return f'sqlite:///{db_path}'
 
 # Initialize Flask app
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 # Security configuration
 app.config['SECRET_KEY'] = get_secret_key()

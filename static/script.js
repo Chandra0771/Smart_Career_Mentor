@@ -35,31 +35,32 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.textContent = 'Logging in...';
             
             const formData = new FormData(loginForm);
-            const username = formData.get('email') || formData.get('username');
+            const email = formData.get('email');
             const password = formData.get('password');
+            const rememberMe = formData.get('remember_me') === 'on';
             
             try {
-                const params = new URLSearchParams();
-                params.append('username', username);
-                params.append('password', password);
-                
-                const response = await fetch('/login', {
+                const response = await fetch('/api/auth/login', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    body: params.toString(),
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ email, password, rememberMe }),
                     credentials: 'include'
                 });
                 
-                if (response.redirected) {
-                    window.location.href = response.url;
-                } else if (response.ok) {
-                    window.location.href = '/dashboard';
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification(data.message || 'Login successful!', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 500);
                 } else {
-                    showNotification('Invalid username or password', 'error');
+                    showNotification(data.message || 'Invalid credentials', 'error');
                     submitBtn.disabled = false;
                     submitBtn.textContent = originalBtnText;
                 }
             } catch (error) {
+                console.error('Login error:', error);
                 showNotification('Connection failed. Please try again.', 'error');
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalBtnText;
@@ -78,12 +79,12 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.textContent = 'Registering...';
             
             const formData = new FormData(registerForm);
-            const username = formData.get('name');
+            const name = formData.get('name');
             const email = formData.get('email');
             const password = formData.get('password');
-            const confirmPassword = formData.get('confirm_password');
+            const confirm_password = formData.get('confirm_password');
             
-            if (password !== confirmPassword) {
+            if (password !== confirm_password) {
                 showNotification('Passwords do not match', 'error');
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalBtnText;
@@ -91,29 +92,33 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             try {
-                const params = new URLSearchParams();
-                params.append('username', username);
-                params.append('email', email);
-                params.append('password', password);
-                params.append('confirm_password', confirmPassword);
-                
-                const response = await fetch('/register', {
+                const response = await fetch('/api/auth/register', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    body: params.toString(),
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ name, email, password }),
                     credentials: 'include'
                 });
                 
-                if (response.redirected) {
-                    window.location.href = response.url;
-                } else if (response.ok) {
-                    window.location.href = '/login';
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification(data.message || 'Registration successful!', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 1000);
                 } else {
-                    showNotification('Registration failed. Please check your details.', 'error');
+                    // Handle validation errors
+                    if (data.errors) {
+                        const errorMessages = data.errors.map(err => err.msg || err.message).join(', ');
+                        showNotification(errorMessages, 'error');
+                    } else {
+                        showNotification(data.message || 'Registration failed. Please check your details.', 'error');
+                    }
                     submitBtn.disabled = false;
                     submitBtn.textContent = originalBtnText;
                 }
             } catch (error) {
+                console.error('Registration error:', error);
                 showNotification('Connection failed. Please try again.', 'error');
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalBtnText;
