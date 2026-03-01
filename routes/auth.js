@@ -41,11 +41,12 @@ router.post('/register', [
             });
         }
 
-        // Create new user
+        // Create new user with hashed password
+        const hashedPassword = await User.hashPassword(password);
         user = new User({
             name,
             email,
-            password
+            password: hashedPassword
         });
 
         await user.save();
@@ -94,7 +95,7 @@ router.post('/login', [
         const { email, password, rememberMe } = req.body;
 
         // Find user by email
-        const user = await User.findOne({ email }).select('+password');
+        const user = await User.findOne({ email });
         if (!user) {
             return res.status(401).json({ 
                 success: false, 

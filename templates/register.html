@@ -191,7 +191,7 @@
             padding: 16px 20px;
             margin-bottom: 12px;
             border-radius: 12px;
-            backdrop-filter: blur(20px);
+            webkit-backdrop-filter: blur(20px);
             animation: slideIn 0.4s ease-out;
         }
         
@@ -239,7 +239,7 @@
                 <p class="auth-subtitle">Start your career journey today</p>
             </div>
             
-            <form id="register-form">
+            <form id="register-form" method="POST">
                 <div class="form-group">
                     <label for="name" class="form-label">Full Name</label>
                     <input 

@@ -119,7 +119,9 @@ app.use((req, res, next) => {
 });
 
 // Serve static files
-app.use(express.static(path.join(__dirname, 'static')));
+const staticPath = path.join(__dirname, 'static');
+console.log('Static files path:', staticPath);
+app.use(express.static(staticPath));
 
 // API Routes
 app.use('/api/auth', authRoutes);
