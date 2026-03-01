@@ -1,13 +1,10 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
-const connectDB = require('./config/db');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -16,8 +13,62 @@ const careerRoutes = require('./routes/career');
 // Initialize Express app
 const app = express();
 
-// Connect to MongoDB
-connectDB();
+// MongoDB Connection with fallback
+let sessionStore;
+let MongoStore;
+
+async function initializeDatabase() {
+    try {
+        // Try to load MongoDB dependencies
+        MongoStore = require('connect-mongo');
+        const mongoose = require('mongoose');
+        
+        // Check if MONGODB_URI is provided
+        if (process.env.MONGODB_URI) {
+            await mongoose.connect(process.env.MONGODB_URI);
+            console.log('MongoDB Connected');
+            
+            sessionStore = MongoStore.create({
+                mongoUrl: process.env.MONGODB_URI,
+                ttl: 30 * 24 * 60 * 60 // 30 days
+            });
+        } else {
+            console.log('MongoDB URI not provided. Using in-memory session store.');
+            // Create in-memory store as fallback
+            const memoryStore = new Map();
+            sessionStore = {
+                get: (sid, cb) => {
+                    cb(null, memoryStore.get(sid));
+                },
+                set: (sid, session, cb) => {
+                    memoryStore.set(sid, session);
+                    cb(null);
+                },
+                destroy: (sid, cb) => {
+                    memoryStore.delete(sid);
+                    cb(null);
+                }
+            };
+        }
+    } catch (error) {
+        console.log('Using in-memory session store (MongoDB not available)');
+        // Use in-memory store as fallback
+        const memoryStore = new Map();
+        sessionStore = {
+            get: (sid, cb) => {
+                cb(null, memoryStore.get(sid));
+            },
+            set: (sid, session, cb) => {
+                memoryStore.set(sid, session);
+                cb(null);
+            },
+            destroy: (sid, cb) => {
+                memoryStore.delete(sid);
+                cb(null);
+            }
+        };
+    }
+}
 
 // Security middleware
 app.use(helmet({
@@ -43,15 +94,12 @@ if (process.env.NODE_ENV !== 'production') {
     app.use(morgan('dev'));
 }
 
-// Session configuration
+// Session configuration with fallback
 const sessionMiddleware = session({
     secret: process.env.SESSION_SECRET || 'dev-secret-key-change-in-production',
     resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URI,
-        ttl: 30 * 24 * 60 * 60 // 30 days
-    }),
+    saveUninitialized: true,
+    store: sessionStore,
     cookie: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
@@ -157,11 +205,17 @@ app.use((err, req, res, next) => {
     res.status(500).json({ success: false, message: 'Internal server error' });
 });
 
-// Start server
+// Initialize database and start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+
+initializeDatabase().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+        console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+}).catch(err => {
+    console.error('Failed to initialize:', err);
+    process.exit(1);
 });
 
 module.exports = app;
