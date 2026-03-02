@@ -24,7 +24,10 @@ const protect = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Attach authenticated user to the request (without password)
-    req.user = await User.findById(decoded.id).select("-password");
+    const user = await User.findById(decoded.id);
+    if (user) {
+      req.user = user.toJSON ? user.toJSON() : user;
+    }
 
     if (!req.user) {
       return res.status(401).json({ message: "User not found" });
