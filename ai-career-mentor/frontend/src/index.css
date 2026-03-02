@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles to get that Vision Pro-like liquid glass background */
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply font-sans text-slate-50;
+  min-height: 100vh;
+  background-color: #020617;
+  background-image: radial-gradient(
+      circle at 0% 0%,
+      rgba(236, 72, 153, 0.25),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(59, 130, 246, 0.2),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(16, 185, 129, 0.18),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(129, 140, 248, 0.25),
+      transparent 55%
+    );
+  background-attachment: fixed;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* A subtle animated gradient overlay for extra depth */
+.bg-aurora {
+  position: fixed;
+  inset: -200px;
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    rgba(129, 140, 248, 0.2),
+    rgba(236, 72, 153, 0.2),
+    rgba(56, 189, 248, 0.18),
+    rgba(16, 185, 129, 0.18),
+    rgba(129, 140, 248, 0.2)
+  );
+  opacity: 0.4;
+  filter: blur(72px);
+  pointer-events: none;
+  animation: spin 40s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg) translateZ(0);
+  }
+  to {
+    transform: rotate(360deg) translateZ(0);
+  }
+}
+
+/* Utility for glass cards */
+.glass-panel {
+  @apply bg-white/5 border border-white/10 backdrop-blur-2xl rounded-3xl shadow-glass-soft;
+}
+
